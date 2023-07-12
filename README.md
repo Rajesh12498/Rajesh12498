@@ -101,8 +101,7 @@
     var sliderItems = document.querySelectorAll('.slider-item');
     var sliderWidth = slider.offsetWidth;
     var slideIndex = 0;
-
-    // Function to slide the slider to the left
+    
     function slideLeft() {
       slideIndex--;
       if (slideIndex < 0) {
@@ -110,8 +109,6 @@
       }
       updateSliderPosition();
     }
-
-    // Function to slide the slider to the right
     function slideRight() {
       slideIndex++;
       if (slideIndex >= sliderItems.length) {
@@ -119,8 +116,6 @@
       }
       updateSliderPosition();
     }
-
-    // Function to update the position of the slider
     function updateSliderPosition() {
       var position = slideIndex * -sliderWidth;
       slider.style.transform = 'translateX(' + position + 'px)';
