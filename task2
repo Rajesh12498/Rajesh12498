@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task1</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .pagination {
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .pagination a {
+      color: black;
+      float: left;
+      padding: 8px 16px;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      margin: 0 4px;
+    }
+
+    .pagination a.active {
+      background-color: rgb(74, 74, 235);
+      color: white;
+      border: 1px solid rgb(74, 74, 235);
+    }
+  </style>
+</head>
+<body>
+  <table id="myTable">
+    <thead>
+      <tr>
+        <th onclick="sortTable(0)">Name</th>
+        <th onclick="sortTable(1)">Age</th>
+        <th onclick="sortTable(2)">city</th>
+        <th onclick="sortTable(3)">city</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Rajesh</td>
+        <td>25</td>
+        <td>pollachi</td>
+      </tr>
+      <tr>
+        <td>suriya</td>
+        <td>26</td>
+        <td>chennai</td>
+      </tr>
+      <tr>
+        <td>tamil</td>
+        <td>25</td>
+        <td>madurai</td>
+      </tr>
+      <tr>
+        <td>vicky</td>
+        <td>25</td>
+        <td>bangalore</td>
+      </tr>
+      <tr>
+        <td>vimal</td>
+        <td>25</td>
+        <td>bangalore</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div id="pagination" class="pagination"></div>
+
+  <script>
+    var table = document.getElementById("myTable");
+    var currentPage = 1;
+    var rowsPerPage = 5;
+    var totalPages = Math.ceil(table.rows.length / rowsPerPage);
+    function displayCurrentPage() {
+      var startRow = (currentPage - 1) * rowsPerPage;
+      var endRow = startRow + rowsPerPage;
+      for (var i = 0; i < table.rows.length; i++) {
+        table.rows[i].style.display = "none";
+      }
+      for (var j = startRow; j < endRow && j < table.rows.length; j++) {
+        table.rows[j].style.display = "table-row";
+      }
+    }
+    function generatePaginationLinks() {
+      var paginationDiv = document.getElementById("pagination");
+      paginationDiv.innerHTML = "";
+      for (var i = 1; i <= totalPages; i++) {
+        var link = document.createElement("a");
+        link.href = "#";
+        link.innerHTML = i;
+        if (i === currentPage) {
+          link.classList.add("active");
+        }
+        link.addEventListener("click", function (page) {
+          return function () {
+            currentPage = page;
+            displayCurrentPage();
+            generatePaginationLinks();
+          };
+        }(i));
+
+        paginationDiv.appendChild(link);
+      }
+    }
+    function sortTable(columnIndex) {
+      var rows, switching, i, x, y, shouldSwitch;
+      switching = true;
+      while (switching) {
+        switching = false;
+        rows = table.rows;
+
+        for (i = 1; i < rows.length - 1; i++) {
+          shouldSwitch = false;
+          x = rows[i].getElementsByTagName("td")[columnIndex];
+          y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+        }
+      }
+    }
+    displayCurrentPage();
+    generatePaginationLinks();
+  </script>
+</body>
+</html>
